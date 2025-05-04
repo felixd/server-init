@@ -34,7 +34,7 @@ if [ -f /etc/os-release ]; then
         # You can now use 'apt' to install apps.
         sudo apt update 
         sudo apt upgrade -y
-        sudo apt install chrony mc gpg -y
+        sudo apt install chrony mc gpg htop btop iotop iperf3 tcpdump screen -y
 
         # TODO: RNG Seed to make sure that server is properly seeded
         echo "Soon to be added RNG Seed"
