@@ -9,6 +9,8 @@ ssh_keys=(
     # Add more keys as needed
 )
 
+echo "Konfiguracja SSH"
+
 ssh_folder="$HOME/.ssh"
 authorized_keys_file="$ssh_folder/authorized_keys"
 
@@ -38,8 +40,45 @@ if [ -f /etc/os-release ]; then
         sudo apt upgrade -y
         sudo apt install chrony mc gpg htop btop iotop iperf3 tcpdump screen -y
 
-        # TODO: RNG Seed to make sure that server is properly seeded
-        echo "Soon to be added RNG Seed"
+        # CHRONY CONFIG OPTIONS
+        echo
+        echo "Konfiguracja chrony:"
+        echo "1) Tylko serwery lokalne + tempus (GUM)"
+        echo "2) Zachowaj domyślne, dodaj tempus jako preferowane"
+        read -rp "Wybierz opcję (1/2): " chrony_mode
+
+        sources_dir="/etc/chrony/sources.d"
+
+        case "$chrony_mode" in
+            1)
+                echo "Tworzę lokalną konfigurację NTP (opcje 1)..."
+                sudo rm -f "$sources_dir"/*.sources
+                sudo tee "$sources_dir/local-gum.sources" >/dev/null <<EOF
+server 192.168.1.2 iburst prefer
+server 192.168.1.3 iburst prefer
+server 192.168.1.4 iburst prefer
+server tempus1.gum.gov.pl iburst prefer 
+server tempus2.gum.gov.pl iburst prefer
+EOF
+                ;;
+            2)
+                echo "Dodaję tempus jako preferowane źródła (opcja 2)..."
+                sudo tee "$sources_dir/gum-preferred.sources" >/dev/null <<EOF
+server tempus1.gum.gov.pl iburst prefer
+server tempus2.gum.gov.pl iburst prefer
+EOF
+                ;;
+            *)
+                echo "Nieznana opcja. Pomijam konfigurację chrony."
+                ;;
+        esac
+
+        echo "Restartuję usługę chrony..."
+        sudo systemctl restart chrony
+        echo
+        chronyc sources || echo "Brak połączenia z chrony – sprawdź konfigurację."
+
+        echo "✔️ Inicjalizacja zakończona."
 
     else
         echo "This is not a Debian-based distribution."
