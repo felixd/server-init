@@ -3,7 +3,7 @@
 Script to initialize fresh Linux machine.
 
 * Chrony (NTP) with correct settings for Poland
-* 
+* Adding proper SSH public keys for authorization.
 
 ## Installation
 
