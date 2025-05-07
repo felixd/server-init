@@ -44,10 +44,12 @@ if [ -f /etc/os-release ]; then
         sudo timedatectl set-timezone Europe/Warsaw
 
         # SUDOERs can SUDO without passwword
+        sudoers_file="/etc/sudoers.d/sudo-group-members-without-passwd"
         echo "Dodaję opcję dla userów w grupie SUDO [bez hasła]"
-        sudo tee "/etc/sudoers.d/sudo-group-members-without-passwd" >/dev/null <<EOF
+        sudo tee "$sudoers_file" >/dev/null <<EOF
 %sudo ALL=(ALL) NOPASSWD:ALL
 EOF
+        sudo chmod 440 $sudoers_file
 
         # CHRONY CONFIG OPTIONS
         echo
