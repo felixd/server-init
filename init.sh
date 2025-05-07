@@ -40,12 +40,14 @@ if [ -f /etc/os-release ]; then
         sudo apt update 
         sudo apt upgrade -y
         sudo apt install chrony mc gpg htop btop iotop iperf3 tcpdump screen -y
+        echo "Ustawiam strefę czasową na Europe/Warsaw."
+        sudo timedatectl set-timezone Europe/Warsaw
 
         # CHRONY CONFIG OPTIONS
         echo
-        echo "Konfiguracja chrony:"
-        echo "1) Tylko serwery lokalne + tempus (GUM)"
-        echo "2) Zachowaj domyślne, dodaj tempus jako preferowane"
+        echo "Konfiguracja chrony: Do sources.d dodaj"
+        echo "1) 192.168.1.2-4 (lokalne) + tempus#.gum.gov.pl (GUM)"
+        echo "2) tempus#.gum.gov.pl (GUM) jako preferowane źródła"
         read -rp "Wybierz opcję (1/2): " chrony_mode
 
         sources_dir="/etc/chrony/sources.d"
