@@ -8,7 +8,8 @@ Script to initialize fresh Linux machine.
 ## Installation
 
 ```bash
-curl -s https://raw.githubusercontent.com/felixd/server-init/master/init.sh | bash -s 
+curl -O https://raw.githubusercontent.com/felixd/server-init/master/init.sh
+bash init.sh
 ```
 
 ## Author

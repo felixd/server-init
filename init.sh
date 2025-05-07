@@ -35,7 +35,7 @@ done
 if [ -f /etc/os-release ]; then
     source /etc/os-release
     if [[ $ID == "debian" || $ID == "ubuntu" ]]; then
-        echo "This is a Debian-based distribution."
+        echo "This is a Debian/Ubuntu based distribution."
         # You can now use 'apt' to install apps.
         sudo apt update 
         sudo apt upgrade -y
@@ -54,7 +54,7 @@ if [ -f /etc/os-release ]; then
             1)
                 echo "Tworzę lokalną konfigurację NTP (opcje 1)..."
                 sudo rm -f "$sources_dir"/*.sources
-                sudo tee "$sources_dir/local-gum.sources" >/dev/null <<EOF
+                sudo tee "$sources_dir/sur10-local-and-gum.sources" >/dev/null <<EOF
 server 192.168.1.2 iburst prefer
 server 192.168.1.3 iburst prefer
 server 192.168.1.4 iburst prefer
@@ -77,12 +77,13 @@ EOF
         echo "Restartuję usługę chrony..."
         sudo systemctl restart chrony
         echo
+        sleep 2
         chronyc sources || echo "Brak połączenia z chrony – sprawdź konfigurację."
 
         echo "✔️ Inicjalizacja zakończona."
 
     else
-        echo "This is not a Debian-based distribution."
+        echo "This is not a Debian/Ubuntu based distribution."
         exit 0
     fi
 else
