@@ -39,15 +39,21 @@ if [ -f /etc/os-release ]; then
         # You can now use 'apt' to install apps.
         sudo apt update 
         sudo apt upgrade -y
-        sudo apt install chrony mc gpg htop btop iotop iperf3 tcpdump screen lshw dmidecode -y
+        sudo apt install chrony mc gpg htop btop iotop iperf3 tcpdump screen lshw dmidecode iftop -y
         echo "Ustawiam strefę czasową na Europe/Warsaw."
         sudo timedatectl set-timezone Europe/Warsaw
+
+        # SUDOERs can SUDO without passwword
+        echo "Dodaję opcję dla userów w grupie SUDO [bez hasła]"
+        sudo tee "/etc/sudoers.d/sudo-group-members-without-passwd" >/dev/null <<EOF
+%sudo ALL=(ALL) NOPASSWD:ALL
+EOF
 
         # CHRONY CONFIG OPTIONS
         echo
         echo "Konfiguracja chrony: Do sources.d dodaj"
-        echo "1) 192.168.1.2-4 (lokalne) + tempus#.gum.gov.pl (GUM)"
-        echo "2) tempus#.gum.gov.pl (GUM) jako preferowane źródła"
+        echo "1) PL: 192.168.1.2-4 (lokalne) + tempus#.gum.gov.pl (GUM)"
+        echo "2) PL: tempus#.gum.gov.pl (GUM) jako preferowane źródła"
         read -rp "Wybierz opcję (1/2): " chrony_mode
 
         sources_dir="/etc/chrony/sources.d"
