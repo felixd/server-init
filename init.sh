@@ -39,7 +39,7 @@ if [ -f /etc/os-release ]; then
         # You can now use 'apt' to install apps.
         sudo apt update 
         sudo apt upgrade -y
-        sudo apt install chrony mc gpg htop btop iotop iperf3 tcpdump screen lshw dmidecode iftop -y
+        sudo apt install chrony mc gpg htop btop iotop iperf3 tcpdump screen lshw dmidecode iftop net-tools -y
         echo "Ustawiam strefę czasową na Europe/Warsaw."
         sudo timedatectl set-timezone Europe/Warsaw
 
