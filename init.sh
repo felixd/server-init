@@ -39,7 +39,7 @@ if [ -f /etc/os-release ]; then
         # You can now use 'apt' to install apps.
         sudo apt update 
         sudo apt upgrade -y
-        sudo apt install chrony mc gpg \
+        sudo apt install chrony mc gpg 7zip \
           htop btop iotop iperf3 tcpdump screen \
           lshw dmidecode iftop net-tools cron rsync -y
         echo "Ustawiam strefę czasową na Europe/Warsaw."
